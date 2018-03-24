@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.gucheng.ssm.dao.UserDao">
+
+	<resultMap type="com.gucheng.ssm.model.User" id="UserMap">
+		<id column="id" property="id" jdbcType="VARCHAR" />
+		<result column="passWord" property="passWord" jdbcType="VARCHAR" />
+		<result column="userName" property="userName" jdbcType="VARCHAR" />
+		<result column="sex" property="sex" jdbcType="INTEGER" />
+		<result column="age" property="age" jdbcType="INTEGER" />
+		<result column="profilehead" property="profilehead" jdbcType="VARCHAR" />
+		<result column="profile" property="profile" jdbcType="VARCHAR" />
+		<result column="firsttime" property="firsttime" jdbcType="VARCHAR" />
+		<result column="lasttime" property="lasttime" jdbcType="VARCHAR" />
+		<result column="status" property="status" jdbcType="INTEGER" />
+	</resultMap>
+	
+	<sql id="user">
+		id,passWord,userName,sex,age,profilehead,profile,firsttime,lasttime,status
+	</sql>
+
+	<!-- 根据id和密码查询user -->
+	<select id="findUser" resultMap="UserMap" parameterType="java.lang.String">
+		select * from user where id=#{arg0} and passWord=#{arg1} and status=1;
+	</select>
+	
+	<!-- 根据id查询user -->
+	<select id="selectUserByUserid" resultMap="UserMap" parameterType="java.lang.String">
+		select * from user where id=#{arg0} and status=1;
+	</select>
+	
+	<!-- 修改用户 -->
+	<update id="update" parameterType="com.gucheng.ssm.model.User">
+		update user 
+		<set>
+			<if test="passWord != null and passWord != ''">
+				passWord = #{passWord , jdbcType=VARCHAR},
+			</if>
+			<if test="userName != null and userName != ''">
+				userName = #{userName, jdbcType=VARCHAR},			
+			</if>
+			<if test="sex != null and sex != ''">
+				sex = #{sex, jdbcType=INTEGER},			
+			</if>
+			<if test="age != null and age != ''">
+				age = #{age, jdbcType=INTEGER},			
+			</if>
+			<if test="profilehead != null and profilehead != ''">
+				profilehead = #{profilehead, jdbcType=VARCHAR},			
+			</if>
+			<if test="profile != null and profile != ''">
+				profile = #{profile, jdbcType=VARCHAR},			
+			</if>
+			<if test="firsttime != null and firsttime != ''">
+				firsttime = #{firsttime, jdbcType=VARCHAR},			
+			</if>
+			<if test="lasttime != null and lasttime != ''">
+				lasttime = #{lasttime, jdbcType=VARCHAR},			
+			</if>
+			<if test="status != null and status != ''">
+				status = #{status, jdbcType=INTEGER},			
+			</if>
+		</set>
+		where id=#{id, jdbcType=VARCHAR}
+	</update>
+
+</mapper>
